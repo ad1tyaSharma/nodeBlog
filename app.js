@@ -36,6 +36,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static('public'));
+app.use('/static', express.static('public'));
 
 const index = require('./routes/index');
 app.use('/', index);
