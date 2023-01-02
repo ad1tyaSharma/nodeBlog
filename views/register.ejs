@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Blog</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js" integrity="sha512-QTnb9BQkG4fBYIt9JGvYmxPpd6TBeKp6lsUrtiVQsrJ9sb33Bn9s0wMQO9qVBFbPX3xHRAsBHvXlcsrnJjExjg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<script>
+    const createUser = () => {
+        //  e.preventDefault()
+        // console.log('clicked');
+        const data = {
+            name: document.querySelector("#name").value,
+            email: document.querySelector("#email").value,
+            password: document.querySelector("#password").value,
+        }
+        axios.post('/users/register', data)
+            .then(function(response) {
+                if (response.status == 200) {
+                    alert(response.data.msg);
+                    window.location.href = '/users/login'
+                }
+            })
+            .catch(function(error) {
+                if (error.response) {
+                    alert(error.response.data.error);
+                }
+            });
+    }
+</script>
+
+<body>
+    <h2>Login into your Blog Account</h2>
+    <div class="form">
+        <form action="/users/register" method="post">
+            <div class=""> <span>Name : </span> <input type="tex" name="name" id="name"></div>
+            <div class=""> <span>Email : </span> <input type="email" name="email" id="email"></div>
+            <div class=""> <span>Password : </span><input type="password" name="password" id="password"></div>
+            <button type="button" onclick="createUser()">Register</button>
+        </form>
+        <div class="other-links-login ">
+            <a href="/users/login">Sign in</a>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,33 @@
+body {
+    height: 100vh;
+    width: 100vw;
+}
+
+h2 {
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.form form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.form .other-links-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+button:hover {
+    cursor: pointer;
+}
