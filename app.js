@@ -18,10 +18,11 @@ mongoose.connect(MongoDBURI, {
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
+  console.log("DB Connected");
 });
 
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: 'work hard',
   resave: true,
   saveUninitialized: false,
   store: new MongoStore({
@@ -38,8 +39,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use('/static', express.static('public'));
 
-const index = require('./routes/index');
-app.use('/', index);
+//Router import
+app.use("/posts",require("./routes/post"));
+app.use("/users",require('./routes/user'))
+
+app.get('/',(req,res)=>
+{
+  res.send("Hello World")
+})
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -54,6 +61,12 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.send(err.message);
 });
+
+
+//Models import
+require("./models/post");
+require('./models/user')
+app.use(express.json());
 
 // listen on port 3000
 app.listen(process.env.PORT || 3000, () => {
