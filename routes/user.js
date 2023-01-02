@@ -8,4 +8,5 @@ router.get("/register", (req, res) => {
     res.render('register.ejs')
 })
 router.post("/register", userController.register)
+router.post("/login", userController.login)
 module.exports = router;

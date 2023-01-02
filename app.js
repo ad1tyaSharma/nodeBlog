@@ -4,6 +4,7 @@ const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+var cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 require('dotenv').config()
@@ -22,10 +23,14 @@ db.once('open', () => {
     console.log("DB Connected");
 });
 app.use(flash());
+app.use(cookieParser());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+    },
     // store: new MongoStore({
     //     mongooseConnection: db
     // })

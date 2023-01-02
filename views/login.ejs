@@ -9,15 +9,38 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js" integrity="sha512-QTnb9BQkG4fBYIt9JGvYmxPpd6TBeKp6lsUrtiVQsrJ9sb33Bn9s0wMQO9qVBFbPX3xHRAsBHvXlcsrnJjExjg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-
+<script>
+    const signInUser = () => {
+        //  e.preventDefault()
+        // console.log('clicked');
+        const data = {
+            //name: document.querySelector("#name").value,
+            email: document.querySelector("#email").value,
+            password: document.querySelector("#password").value,
+        }
+        axios.post('/users/login', data)
+            .then(function(response) {
+                if (response.status == 200) {
+                    console.log(response.data);
+                    alert(response.data.msg);
+                    window.location.href = '/posts'
+                }
+            })
+            .catch(function(error) {
+                if (error.response) {
+                    alert(error.response.data.error);
+                }
+            });
+    }
+</script>
 
 <body>
     <h2>Login into your Blog Account</h2>
     <div class="form ">
         <form action="/users/login" method="post ">
-            <div class=""> <span>Email : </span><input type="email " name="email " id=" "></div>
-            <div class=""> <span>Password : </span> <input type="password " name="password" id=" "></div>
-            <button type="button">Log in</button>
+            <div class=""> <span>Email : </span><input type="email" name="email" id="email"></div>
+            <div class=""> <span>Password : </span> <input type="password" name="password" id="password"></div>
+            <button type="button" onclick="signInUser()">Log in</button>
         </form>
         <div class="other-links-login ">
             <a href=" ">Forgot password</a>
