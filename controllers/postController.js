@@ -1,3 +1,3 @@
 exports.populateBlogs = (req, res) => {
-    return res.send((req.user))
+    return res.send((req.session.user))
 }

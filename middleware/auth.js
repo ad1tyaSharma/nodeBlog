@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
 
     jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
         if (error) return res.status(500).redirect('/users/login');
-        req.user = decoded;
+        req.session.user = decoded;
         next();
     });
 };
