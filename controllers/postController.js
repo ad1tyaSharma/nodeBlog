@@ -1,3 +1,32 @@
+const Post = require("../models/post")
+
 exports.populateBlogs = (req, res) => {
-    return res.send((req.session.user))
+    return res.render('base.ejs', { user: req.session.user })
+}
+exports.createPost = async(req, res) => {
+    const { title, content, tag } = req.body;
+    if (!title || !content || !tag) {
+        return res.status(400).json({ error: "Please provide complete data" });
+    } else {
+        const post = new Post({
+            title,
+            author: 'Aditya',
+            content,
+            image: "https://via.placeholder.com/1280x720",
+            tag,
+            createdAt: new Date(),
+            likes: 0
+        })
+        post.save((error) => {
+            if (error) {
+                console.log(error);
+                return res.status(400).json({ error: "Please try again" });
+
+            } else {
+                console.log('User saved');
+                return res.status(200).json({ msg: "Post Saved" });
+
+            }
+        });
+    }
 }

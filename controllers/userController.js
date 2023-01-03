@@ -79,6 +79,15 @@ exports.login = async(req, res) => {
                     process.env.JWT_SECRET
                 );
                 console.log(token);
+                if (!req.session.user) {
+                    req.session.user = {
+                        id: data._id,
+                        email: data.email,
+                        name: data.name,
+                        role: data.role,
+                    };
+
+                }
                 res
                     .status(201)
                     .cookie("token", token, {
