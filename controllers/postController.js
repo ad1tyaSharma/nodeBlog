@@ -30,3 +30,21 @@ exports.createPost = async(req, res) => {
         });
     }
 }
+
+exports.editPost = (req, res) => {
+    const updates = req.body;
+    if (!updates) {
+        return res.status(400).json({ error: "Please provide complete data" });
+    } else {
+        Post.findOneAndUpdate({ _id: updates.id }, updates, (error, user) => {
+            if (error) {
+                console.log(error);
+                return res.status(400).json({ error: "Please try again" });
+            } else {
+                console.log('User saved');
+                return res.status(200).json({ msg: "Post Updated" });
+
+            }
+        });
+    }
+}
