@@ -48,3 +48,21 @@ exports.editPost = (req, res) => {
         });
     }
 }
+
+exports.deletePost = (req, res) => {
+    const { id } = req.body;
+    if (!id) {
+        return res.status(400).json({ error: "Please try again" });
+    } else {
+        Post.findOneAndDelete({ _id: id }, (error) => {
+            if (error) {
+                console.log(error);
+                return res.status(400).json({ error: "Please try again" });
+            } else {
+                console.log('User saved');
+                return res.status(200).json({ msg: "Post Deleted" });
+
+            }
+        });
+    }
+}

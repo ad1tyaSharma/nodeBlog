@@ -7,4 +7,6 @@ router.get('/', verifyToken, postController.populateBlogs)
 
 router.post('/createPost', postController.createPost)
 router.post('/editPost', postController.editPost)
+router.post('/deletePost', postController.deletePost)
+
 module.exports = router;
