@@ -102,3 +102,13 @@ exports.login = async(req, res) => {
         }
     );
 };
+exports.logOut = (req, res) => {
+    res.clearCookie('token')
+    req.session.destroy((error) => {
+        if (error) throw error;
+        res.redirect('/users/login');
+    });
+}
+exports.userProfile = (req, res) => {
+    res.render('profile.ejs')
+}

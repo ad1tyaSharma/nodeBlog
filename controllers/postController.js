@@ -1,18 +1,32 @@
 const Post = require("../models/post")
 const User = require('../models/user')
 exports.populateBlogs = (req, res) => {
-    return res.render('base.ejs', { user: req.session.user })
+    return res.render('home.ejs', { user: req.session.user, title: "Home | Blog" })
 }
+exports.createPostPage = (req, res) => {
+    const cloudinary = {
+            apiKey: process.env.CLOUDINARY_API_KEY,
+            preset: process.env.CLOUDINARY_PRESET,
+            name: process.env.CLOUDINARY_NAME
+        }
+        // console.log(cloudinary);
+    res.render('createPost.ejs', {
+        user: req.session.user,
+        title: "Home | Blog",
+        cloudinary
+    })
+}
+
 exports.createPost = async(req, res) => {
-    const { title, content, tag } = req.body;
-    if (!title || !content || !tag) {
+    const { title, content, tag, image, author } = req.body;
+    if (!title || !content || !tag || !image || !author) {
         return res.status(400).json({ error: "Please provide complete data" });
     } else {
         const post = new Post({
             title,
-            author: 'Aditya',
+            author,
             content,
-            image: "https://via.placeholder.com/1280x720",
+            image,
             tag,
             createdAt: new Date(),
             likes: 0

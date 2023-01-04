@@ -22,6 +22,10 @@ userSchema = new Schema({
             required: true,
             default: "blogger"
         },
+        profilePic: {
+            type: String,
+            required: true
+        },
         likes: [String]
 
     }),

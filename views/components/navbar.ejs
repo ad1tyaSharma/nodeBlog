@@ -1,0 +1,9 @@
+<nav>
+    <% if (user) { %>
+        <p>Welcome,
+            <%= user.name %>
+        </p>
+        <a href="/users/logout">logout</a>
+        <%} %>
+
+</nav>
