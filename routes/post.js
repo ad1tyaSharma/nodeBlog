@@ -8,5 +8,6 @@ router.get('/', verifyToken, postController.populateBlogs)
 router.post('/createPost', postController.createPost)
 router.post('/editPost', postController.editPost)
 router.post('/deletePost', postController.deletePost)
-
+router.post('/:id/like', postController.addLike)
+router.post('/:id/unlike', postController.unLike)
 module.exports = router;

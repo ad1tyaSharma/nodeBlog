@@ -22,6 +22,7 @@ userSchema = new Schema({
             required: true,
             default: "blogger"
         },
+        likes: [String]
 
     }),
     User = mongoose.model('User', userSchema);
