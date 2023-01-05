@@ -23,7 +23,12 @@ exports.getPostDetail = (req, res) => {
         if (error) {
             res.status(400).redirect('/notFound')
         } else {
-            res.status(200).render('postDetail.ejs', { data, user: req.session.user, title: "Blog" })
+            // console.log(data)
+            if (!data) {
+                res.status(400).redirect('/notFound')
+            } else {
+                res.status(200).render('postDetail.ejs', { data, user: req.session.user, title: "Blog" })
+            }
         }
     })
 }
@@ -48,7 +53,7 @@ exports.createPost = async(req, res) => {
                 return res.status(400).json({ error: "Please try again" });
 
             } else {
-                console.log('User saved');
+                //console.log('User saved');
                 return res.status(200).json({ msg: "Post Saved" });
 
             }
