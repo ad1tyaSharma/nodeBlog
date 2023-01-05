@@ -43,6 +43,10 @@ const createUser = () => {
 const uploadImage = async() => {
     const input = document.getElementById('image');
     const data = new FormData();
+    if (!input.files[0]) {
+        alert("Please upload an image")
+        return
+    }
     data.append('file', input.files[0]);
     data.append('upload_preset', cloudinary.preset);
     data.append('public_id', `posts/${user.id}${Math.floor(Math.random() * 1000000000)}`);
@@ -73,6 +77,7 @@ const createPost = async() => {
         .then(function(response) {
             if (response.status == 200) {
                 alert(response.data.msg);
+                window.location.href = `/posts/${response.data.id}`
             }
         })
         .catch(function(error) {

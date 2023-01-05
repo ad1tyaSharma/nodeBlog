@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+    const user = JSON.parse(`<%- JSON.stringify(user)%>`)
+        //console.log(cloudinary.preset);
+    const cloudinary = JSON.parse('<%- JSON.stringify(cloudinary)%>')
+
+    const data = JSON.parse(`<%- JSON.stringify(data)%>`)
+</script>
+<%- include('components/header.ejs') %>
+    <script>
+        var image = data.image
+        window.addEventListener("load", (event) => {
+            document.querySelector(".image-container").innerHTML = `<img src=${data.image} alt = "txt">`
+            document.querySelector("#title").value = data.title
+            document.querySelector("#content").value = data.content
+            document.querySelector('#selectInput').value = data.tag
+        });
+        const uploadImage2 = async() => {
+            const input = document.getElementById('image');
+            const data = new FormData();
+            if (!input.files[0]) {
+                alert("Please upload an image")
+                return
+            }
+            data.append('file', input.files[0]);
+            data.append('upload_preset', cloudinary.preset);
+            data.append('public_id', `posts/${user.id}${Math.floor(Math.random() * 1000000000)}`);
+            data.append('api_key', cloudinary.apiKey);
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudinary.name}/image/upload`, {
+                method: 'POST',
+                body: data
+            });
+            const file = await res.json();
+            if (file.secure_url) {
+                document.querySelector(".image-container").innerHTML = `<img src=${file.secure_url} alt=${file.asset_id}>`
+            }
+            //console.log(file.secure_url);
+            image = file.secure_url;
+        }
+        const editPost = async() => {
+            const input = document.getElementById('image');
+            if (input.files[0]) {
+                await uploadImage2()
+
+            }
+            const body = {
+                title: document.querySelector("#title").value,
+                author: user.id,
+                content: document.querySelector("#content").value,
+                image,
+                tag: document.querySelector('#selectInput').value,
+                createdAt: new Date(),
+            }
+            console.log(body);
+            axios.post(`/posts/${data._id}/editPost`, body)
+                .then(function(response) {
+                    if (response.status == 200) {
+                        alert(response.data.msg)
+                        window.location.href = `/posts/${data._id}`
+                    }
+                })
+                .catch(function(error) {
+                    if (error.response) {
+                        alert(JSON.stringify(error.response.data.error));
+
+                    }
+                });
+        }
+    </script>
+
+    <body>
+        <%- include('components/navbar.ejs') %>
+            <h2>Edit Blog</h2>
+            <form action="" method="post">
+                <div class="image-container">
+                </div>
+                <span>Choose image : </span> <input type="file" name="image" id="image">
+                <span>Enter Title : </span><input type="text" name="title" id="title">
+                <span>Enter content : </span><input type="text" name="content" id="content">
+                <span>Tags</span><select id="selectInput" name="selectInput" size="6">
+                        <option value="Tech">Tech</option>
+                        <option value="Food">Food</option>
+                        <option value="Space">Space</option>
+                        <option value="News">News</option>
+                        <option value="Politics">Politics</option>
+                        <option value="Education">Education</option>
+                      </select>
+                <button type="button" onclick="editPost()">Edit</button>
+            </form>
+    </body>
+
+</html>

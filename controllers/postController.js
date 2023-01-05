@@ -1,5 +1,6 @@
 const Post = require("../models/post")
 const User = require('../models/user')
+
 exports.populateBlogs = (req, res) => {
     return res.render('home.ejs', { user: req.session.user, title: "Home | Blog" })
 }
@@ -33,6 +34,26 @@ exports.getPostDetail = (req, res) => {
     })
 }
 
+exports.editPostPage = (req, res) => {
+    const id = req.params.id;
+    const cloudinary = {
+        apiKey: process.env.CLOUDINARY_API_KEY,
+        preset: process.env.CLOUDINARY_PRESET,
+        name: process.env.CLOUDINARY_NAME
+    }
+    Post.findOne({ _id: id }, (err, data) => {
+        if (err) {
+            res.status(400).redirect('/notFound')
+        } else {
+            if (!data || req.session.user.id != data.author) {
+                res.status(400).redirect('/notFound')
+            } else {
+                res.status(200).render('editPost.ejs', { data, user: req.session.user, title: "Blog", cloudinary })
+            }
+        }
+    })
+}
+
 exports.createPost = async(req, res) => {
     const { title, content, tag, image, author } = req.body;
     if (!title || !content || !tag || !image || !author) {
@@ -53,8 +74,9 @@ exports.createPost = async(req, res) => {
                 return res.status(400).json({ error: "Please try again" });
 
             } else {
-                //console.log('User saved');
-                return res.status(200).json({ msg: "Post Saved" });
+                //console.log('User saved');\
+                //console.log();
+                return res.status(200).json({ msg: "Post Saved", id: post._id });
 
             }
         });
@@ -62,16 +84,17 @@ exports.createPost = async(req, res) => {
 }
 
 exports.editPost = (req, res) => {
+    const id = req.params.id;
     const updates = req.body;
     if (!updates) {
         return res.status(400).json({ error: "Please provide complete data" });
     } else {
-        Post.findOneAndUpdate({ _id: updates.id }, updates, (error, user) => {
+        Post.findOneAndUpdate({ _id: id }, updates, (error, user) => {
             if (error) {
                 console.log(error);
                 return res.status(400).json({ error: "Please try again" });
             } else {
-                console.log('User saved');
+                console.log(user);
                 return res.status(200).json({ msg: "Post Updated" });
 
             }
