@@ -17,6 +17,17 @@ exports.createPostPage = (req, res) => {
     })
 }
 
+exports.getPostDetail = (req, res) => {
+    const id = req.params.id;
+    Post.findOne({ _id: id }, (error, data) => {
+        if (error) {
+            res.status(400).redirect('/notFound')
+        } else {
+            res.status(200).render('postDetail.ejs', { data, user: req.session.user, title: "Blog" })
+        }
+    })
+}
+
 exports.createPost = async(req, res) => {
     const { title, content, tag, image, author } = req.body;
     if (!title || !content || !tag || !image || !author) {

@@ -109,6 +109,20 @@ exports.logOut = (req, res) => {
         res.redirect('/users/login');
     });
 }
+exports.getUser = (req, res) => {
+    const _id = req.params.id;
+    User.findOne({ _id }, (error, data) => {
+        if (error) {
+            console.log(error);
+            res.status(400).json({ error: "User not found" })
+        } else {
+            if (!data) {
+                res.status(400).json({ error: "User not found" })
+            } else
+                res.status(200).json({ data })
+        }
+    })
+}
 exports.userProfile = (req, res) => {
     res.render('profile.ejs')
 }

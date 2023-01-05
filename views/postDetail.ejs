@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+    const blog = JSON.parse('<%- JSON.stringify(data)%>')
+    const user = JSON.parse('<%- JSON.stringify(user)%>')
+</script>
+<%- include('components/header.ejs') %>
+    <script>
+        var like = false
+        axios.get(`/users/${blog.author}`)
+            .then(function(response) {
+                if (response.status == 200) {
+                    //console.log(response.data.data);
+                    document.querySelector("#blogAuthor").innerHTML = `${response.data.data.name}`
+                }
+            })
+            .catch(function(error) {
+                if (error.response) {
+                    alert(JSON.stringify(error.response.data.error));
+                    window.location.href = '/'
+                }
+            });
+        axios.get(`/users/${user.id}`)
+            .then(function(response) {
+                if (response.status == 200) {
+                    const res = (response.data.data);
+                    if (res.likes.includes(blog._id)) {
+                        //console.log('found');
+                        like = true;
+                        document.querySelector("#likeButton").innerText = 'Unlike'
+                    }
+                }
+            })
+            .catch(function(error) {
+                if (error.response) {
+                    alert(JSON.stringify(error.response.data.error));
+                    window.location.href = '/'
+                }
+            });
+        const likeBtn = () => {
+            if (like) {
+                axios.post(`/posts/${blog._id}/unlike`, {
+                        id: user.id
+                    })
+                    .then(function(response) {
+                        if (response.status == 200) {
+                            document.querySelector("#likeButton").innerText = 'Like';
+                            document.querySelector("#likeCounter").innerText = blog.likes - 1;
+                            like = false;
+                            alert(JSON.stringify(response.data.msg));
+                        }
+                    })
+                    .catch(function(error) {
+                        if (error.response) {
+                            alert(JSON.stringify(error.response.data.error));
+                        }
+                    });
+            } else {
+                axios.post(`/posts/${blog._id}/like`, {
+                        id: user.id
+                    })
+                    .then(function(response) {
+                        if (response.status == 200) {
+                            document.querySelector("#likeButton").innerText = 'Unlike';
+                            document.querySelector("#likeCounter").innerText = blog.likes + 1;
+                            like = true;
+                            alert(JSON.stringify(response.data.msg));
+                        }
+                    })
+                    .catch(function(error) {
+                        if (error.response) {
+                            alert(JSON.stringify(error.response.data.error));
+                        }
+                    });
+            }
+        }
+    </script>
+
+    <body>
+        <%- include('components/navbar.ejs') %>
+            <h2>
+                <%= data.title%>
+            </h2>
+            <img src="<%= data.image%>" alt="txt">
+            <p id="blogAuthor"> Written by :
+                <%= data.author%>
+            </p>
+            <p> Tag :
+                <%= data.tag%>
+            </p>
+            <p id="createdAt">Created At :
+                <%=  `${new Date(data.createdAt).getDate()}/${new Date(data.createdAt).getMonth() +1}/${new Date(data.createdAt).getFullYear()}`%>
+            </p>
+            <div class="likes"> Likes : <span id="likeCounter"><%= data.likes%></span>
+                <button id="likeButton" onclick="likeBtn()">Like</button></div>
+            <p>
+                <%= data.content%>
+            </p>
+            <% if(data.author == user.id || user.role == 'admin'){ %>
+                <button id="editButton">Edit</button>
+                <button id="deleteButton">Delete post</button>
+                <% } %>
+    </body>
+
+</html>

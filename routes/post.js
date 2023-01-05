@@ -5,6 +5,7 @@ const verifyToken = require('../middleware/auth')
 
 router.get('/', verifyToken, postController.populateBlogs)
 router.get('/create', verifyToken, postController.createPostPage)
+router.get('/:id', verifyToken, postController.getPostDetail)
 
 router.post('/createPost', postController.createPost)
 router.post('/editPost', postController.editPost)
