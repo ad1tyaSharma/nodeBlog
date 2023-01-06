@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('components/header.ejs') %>
-
-    <body>
-        <%- include('components/navbar.ejs') %>
-    </body>
-
+  <script>
+    const data = JSON.parse(`<%- JSON.stringify(data)%>`);
+    const user = JSON.parse(`<%- JSON.stringify(user)%>`);
+  </script>
+  <%- include('components/header.ejs') %>
+  <script>
+   
+    window.addEventListener("load", (event) => {
+       // console.log(data.length);
+    for (let i = 0; i < data.length; i++) {
+      const mainDiv = document.createElement("div");
+      mainDiv.innerHTML = `
+            <a href="/posts/${data[i]._id}"><img src="${data[i].image}" alt="txt"></a>
+            <a href="/posts/${data[i]._id}">${data[i].title}</a>
+            <p>${data[i].tag}</p>
+                `;
+      document.querySelector(".blogs").append(mainDiv);
+    }
+    });
+  </script>
+  <body>
+    <%- include('components/navbar.ejs') %>
+    <div class="blogs"></div>
+  </body>
 </html>

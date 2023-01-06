@@ -2,7 +2,25 @@ const Post = require("../models/post")
 const User = require('../models/user')
 
 exports.populateBlogs = (req, res) => {
-    return res.render('home.ejs', { user: req.session.user, title: "Home | Blog" })
+Post.find({},((err,data)=>
+{
+    if(err)
+    {
+        console.log(err);
+       return res.status(400).send("Website is under mantainence")
+    }
+    else
+    {
+        if(!data)
+        {
+           return  res.status(404).send("No posts Found 😥")
+        }
+        else
+        {
+           return res.status(200).render('home.ejs', { user: req.session.user, title: "Home | Blog" ,data})
+        }
+    }
+}))
 }
 exports.createPostPage = (req, res) => {
     const cloudinary = {
