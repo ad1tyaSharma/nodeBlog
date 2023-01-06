@@ -16,5 +16,6 @@ router.post("/register", userController.register)
 router.post("/login", userController.login)
 router.get('/:id', verifyToken, userController.getUser)
 router.get('/profile/:id',verifyToken,userController.userProfile)
-
+router.get('/edit/:id',verifyToken,userController.editUserPage)
+router.post('/:id/editUser',userController.editUser)
 module.exports = router;

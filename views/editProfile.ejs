@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+    const user = JSON.parse('<%- JSON.stringify(user)%>')
+    const data = JSON.parse('<%- JSON.stringify(data)%>')
+        //console.log(cloudinary.preset);
+</script>
+<%- include('components/header.ejs') %>
+<script>
+    const editProfile = ()=>
+    {
+        axios.post(`/users/${data._id}/editUser`, {
+            name:document.querySelector("#name").value,
+            email:document.querySelector("#email").value,
+            role : document.querySelector("#role") ?  document.querySelector("#role").value: "blogger"
+        })
+                .then(function(response) {
+                    if (response.status == 200) {
+                        alert(response.data.msg)
+                        window.location.href = `/users/profile/${data._id}`
+                    }
+                })
+                .catch(function(error) {
+                    if (error.response) {
+                        alert((error.response.data.error));
+
+                    }
+                });
+    }
+</script>
+    <body>
+        <%- include('components/navbar.ejs') %>
+            <h2> Name :<input type="text" id="name" value="<%= data.name%>"> </h2>
+            
+            <img src="https://via.placeholder.com/300" alt="txt">
+            <input type="file" name="image" id="image">
+            <p>Email : <input type="email" id="email" value="<%= data.email%>"> </p>
+            <p>Account Type : <%= data.role%></p>
+            <% if(user.role == "admin"){%>
+                <input type="text" id="role" value="<%=data.role%>">
+                <%}%>
+           <button onclick="editProfile()">Save Changes</button>
+    </body>
+
+</html>

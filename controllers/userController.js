@@ -149,3 +149,44 @@ exports.userProfile = (req, res) => {
     })
    
 }
+exports.editUserPage = (req,res)=>
+{
+    const _id = req.params.id;
+    User.findOne({_id},(err,usr)=>
+    {
+        if(err)
+        {
+            console.log(err);
+            res.status(400).redirect('/')
+        }
+        else{
+            if(!usr)
+            {
+                res.status(400).redirect('/')
+            }
+            else
+            {
+                res.status(200).render('editProfile.ejs',{
+                    user:req.session.user,
+                    data : usr,
+                    title:" Edit Profile | Blog"
+                })
+            }
+        }
+    })
+}
+exports.editUser = (req,res)=>
+{
+    const _id = req.params.id;
+    const {name,email,role} =req.body;
+    User.findOneAndUpdate({  _id}, { $set: { name,email,role} }, (err, result) => {
+       if(err)
+       {
+        return res.status(400).json({error:"Please try again!"})
+       }
+       else
+       {
+        return res.status(200).json({msg:"Profile Updated"})
+       }
+    })
+}
