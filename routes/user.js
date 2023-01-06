@@ -15,5 +15,6 @@ router.get('/userProfile', verifyToken, userController.userProfile)
 router.post("/register", userController.register)
 router.post("/login", userController.login)
 router.get('/:id', verifyToken, userController.getUser)
+router.get('/profile/:id',verifyToken,userController.userProfile)
 
 module.exports = router;

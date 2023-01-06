@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+    const user = JSON.parse('<%- JSON.stringify(user)%>')
+    const data = JSON.parse('<%- JSON.stringify(data)%>')
+        //console.log(cloudinary.preset);
+</script>
+<%- include('components/header.ejs') %>
+
+    <body>
+        <%- include('components/navbar.ejs') %>
+            <h2> Name : <%= data.name%></h2>
+            <img src="https://via.placeholder.com/300" alt="txt">
+            <p>Email : <%= data.email%> </p>
+            <p>Account Type : <%= data.role%></p>
+            <% if(data._id == user.id || user.role == 'admin'){ %>
+                <button id="editButton"><a href="/users/edit/<%= data._id%>">Edit</a></button>
+                
+                <% } %>
+    </body>
+
+</html>

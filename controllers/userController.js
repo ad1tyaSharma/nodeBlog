@@ -124,5 +124,28 @@ exports.getUser = (req, res) => {
     })
 }
 exports.userProfile = (req, res) => {
-    res.render('profile.ejs')
+    const _id = req.params.id;
+    User.findOne({_id},(err,usr)=>
+    {
+        if(err)
+        {
+            console.log(err);
+            res.status(400).redirect('/')
+        }
+        else{
+            if(!usr)
+            {
+                res.status(400).redirect('/')
+            }
+            else
+            {
+                res.status(200).render('profile.ejs',{
+                    user:req.session.user,
+                    data : usr,
+                    title:"Profile | Blog"
+                })
+            }
+        }
+    })
+   
 }
