@@ -10,7 +10,7 @@
     <body>
         <%- include('components/navbar.ejs') %>
             <h2> Name : <%= data.name%></h2>
-            <img src="https://via.placeholder.com/300" alt="txt">
+            <img src="<%= data.profilePic%>" alt="txt">
             <p>Email : <%= data.email%> </p>
             <p>Account Type : <%= data.role%></p>
             <% if(data._id == user.id || user.role == 'admin'){ %>

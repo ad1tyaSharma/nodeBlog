@@ -151,6 +151,11 @@ exports.userProfile = (req, res) => {
 }
 exports.editUserPage = (req,res)=>
 {
+    const cloudinary = {
+        apiKey: process.env.CLOUDINARY_API_KEY,
+        preset: process.env.CLOUDINARY_PRESET,
+        name: process.env.CLOUDINARY_NAME
+    }
     const _id = req.params.id;
     User.findOne({_id},(err,usr)=>
     {
@@ -169,7 +174,8 @@ exports.editUserPage = (req,res)=>
                 res.status(200).render('editProfile.ejs',{
                     user:req.session.user,
                     data : usr,
-                    title:" Edit Profile | Blog"
+                    title:" Edit Profile | Blog",
+                    cloudinary
                 })
             }
         }
@@ -178,10 +184,11 @@ exports.editUserPage = (req,res)=>
 exports.editUser = (req,res)=>
 {
     const _id = req.params.id;
-    const {name,email,role} =req.body;
-    User.findOneAndUpdate({  _id}, { $set: { name,email,role} }, (err, result) => {
+    const {name,email,role,profilePic} =req.body;
+    User.findOneAndUpdate({  _id}, { $set: { name,email,role,profilePic} }, (err, result) => {
        if(err)
        {
+        console.log(err);
         return res.status(400).json({error:"Please try again!"})
        }
        else

@@ -3,16 +3,48 @@
 <script>
     const user = JSON.parse(`<%- JSON.stringify(user)%>`)
     const data = JSON.parse(`<%- JSON.stringify(data)%>`)
+    const cloudinary = JSON.parse('<%- JSON.stringify(cloudinary)%>')
+
         //console.log(cloudinary.preset);
 </script>
 <%- include('components/header.ejs') %>
 <script>
-    const editProfile = ()=>
+       var image = data.profilePic
+     const uploadImage2 = async() => {
+     
+            const input = document.getElementById('image');
+            const formdata = new FormData();
+            if (!input.files[0]) {
+                alert("Please upload an image")
+                return
+            }
+            formdata.append('file', input.files[0]);
+            formdata.append('upload_preset', cloudinary.preset);
+            formdata.append('public_id', `users/${user.id}${Math.floor(Math.random() * 1000000000)}`);
+            formdata.append('api_key', cloudinary.apiKey);
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudinary.name}/image/upload`, {
+                method: 'POST',
+                body: formdata
+            });
+            const file = await res.json();
+            if (file.secure_url) {
+                document.querySelector(".image-container").innerHTML = `<img src=${file.secure_url} alt=${file.asset_id}>`
+            }
+            console.log(file);
+            image = file.secure_url;
+        }
+    const editProfile =async ()=>
     {
+        const input = document.getElementById('image');
+            if (input.files[0]) {
+                await uploadImage2()
+
+            }
         axios.post(`/users/${data._id}/editUser`, {
             name:document.querySelector("#name").value,
             email:document.querySelector("#email").value,
-            role : document.querySelector("#role") ?  document.querySelector("#role").value: "blogger"
+            role : document.querySelector("#role") ?  document.querySelector("#role").value: "blogger",
+            profilePic : image
         })
                 .then(function(response) {
                     if (response.status == 200) {
@@ -31,8 +63,8 @@
     <body>
         <%- include('components/navbar.ejs') %>
             <h2> Name :<input type="text" id="name" value="<%= data.name%>"> </h2>
-            
-            <img src="https://via.placeholder.com/300" alt="txt">
+            <div class="image-container"> <img src="<%=data.profilePic%>" alt="txt"></div>
+           
             <input type="file" name="image" id="image">
             <p>Email : <input type="email" id="email" value="<%= data.email%>"> </p>
             <p>Account Type : <%= data.role%></p>
