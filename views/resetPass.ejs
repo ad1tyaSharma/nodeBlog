@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Reset Password</title>
+        <link rel="stylesheet" href="/css/style.css">
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"
+            integrity="sha512-QTnb9BQkG4fBYIt9JGvYmxPpd6TBeKp6lsUrtiVQsrJ9sb33Bn9s0wMQO9qVBFbPX3xHRAsBHvXlcsrnJjExjg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+    <script>
+    const id  = `<%=id%>`;
+    const token  = `<%=token%>`
+    const resetPass = ()=>
+    {
+        
+        if(document.querySelector("#password").value !== document.querySelector("#confPassword").value)
+        {
+            alert("Passwords doesn't match!!")
+            return;
+        }
+    axios.post(`/users/reset-password/${id}`, 
+    {
+        password : document.querySelector("#password").value
+    })
+        .then(function(response) {
+            if (response.status == 200) {
+                alert(response.data.msg);
+                console.log(response.data.link);
+                 window.location.href = '/users/login'
+            }
+        })
+        .catch(function(error) {
+            if (error.response) {
+                alert(error.response.data.error);
+            }
+        });
+    }
+</script>
+    <body>
+        <h2>Enter new password</h2>
+        <div class="form ">
+            <form action="/users/login" method="post ">
+                <div class=""> <span>New Password : </span><input
+                        type="password" name="password" id="password"></div>
+                <div class=""> <span>Re-enter new Password : </span><input
+                        type="password" name="password" id="confPassword"></div>
+                <button type="button" onclick="resetPass()">Update Password</button>
+            </form>
+        </div>
+    </body>
+
+</html>+

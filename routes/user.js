@@ -9,7 +9,10 @@ router.get("/login", (req, res) => {
 router.get("/register", (req, res) => {
     res.render('register.ejs')
 })
+router.get('/forgot-password',userController.getForgotPassPage)
 router.get('/logout', userController.logOut)
+router.get('/forgot-password/:id/:token',userController.getResetPassPage)
+
 router.get('/userProfile', verifyToken, userController.userProfile)
 
 router.post("/register", userController.register)
@@ -18,4 +21,6 @@ router.get('/:id', verifyToken, userController.getUser)
 router.get('/profile/:id',verifyToken,userController.userProfile)
 router.get('/edit/:id',verifyToken,userController.editUserPage)
 router.post('/:id/editUser',userController.editUser)
+router.post('/forgot-password',userController.ForgotPass)
+router.post('/reset-password/:id',userController.resetPass)
 module.exports = router;
