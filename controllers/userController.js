@@ -204,20 +204,20 @@ exports.ForgotPass = (req, res) => {
         const apiKey = client.authentications["api-key"];
         apiKey.apiKey = process.env.SIB_KEY;
         const transEmailApi = new sib.TransactionalEmailsApi();
-        
-const sender = {
-  email: 'mail4trial4@gmail.com',
-  name: 'Admin',
-}
 
-const receivers = [
-  {
-      email,
-  },
-]
+        const sender = {
+          email: "mail4trial4@gmail.com",
+          name: "Admin",
+        };
+
+        const receivers = [
+          {
+            email,
+          },
+        ];
         transEmailApi
           .sendTransacEmail({
-            sender ,
+            sender,
             to: receivers,
             subject: "Password Reset Link",
             htmlContent: `
