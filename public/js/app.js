@@ -4,18 +4,19 @@ const signInUser = () => {
     const data = {
         //name: document.querySelector("#name").value,
         email: document.querySelector("#email").value,
-        password: document.querySelector("#password").value,
+        password: document.querySelector("#password-field").value,
     }
     axios.post('/users/login', data)
         .then(function(response) {
             if (response.status == 200) {
-                alert(response.data.msg);
+                //alert(response.data.msg);
                 window.location.href = '/posts'
             }
         })
         .catch(function(error) {
             if (error.response) {
-                alert(error.response.data.error);
+                //alert(error.response.data.error);
+                swal(error.response.data.error, "Please try again!", "error");
             }
         });
 }
