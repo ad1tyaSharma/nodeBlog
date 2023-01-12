@@ -29,6 +29,7 @@
                 if (response.status == 200) {
                     //alert(response.data.msg);
                     swal(response.data.msg, "One-time password reset link has been sent to your email address 😄", "success");
+                    console.log(response.data.link);
                     // window.location.href = '/posts'
                 }
             })
@@ -41,6 +42,9 @@
 </script>
 
 <body>
+    <div style="display: flex;align-items: center;justify-content: center;width: 15vw;height: 10vh;">
+		<a href="/"><img src="/images/logo.png" style="width: 10vw;" alt=""></a>
+	</div>
     <section class="ftco-section">
         <div class="container">
             <div class="row justify-content-center">

@@ -1,57 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Reset Password</title>
-        <link rel="stylesheet" href="/css/style.css">
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"
-            integrity="sha512-QTnb9BQkG4fBYIt9JGvYmxPpd6TBeKp6lsUrtiVQsrJ9sb33Bn9s0wMQO9qVBFbPX3xHRAsBHvXlcsrnJjExjg=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    </head>
-    <script>
-    const id  = `<%=id%>`;
-    const token  = `<%=token%>`
-    const resetPass = ()=>
-    {
-        
-        if(document.querySelector("#password").value !== document.querySelector("#confPassword").value)
-        {
-            alert("Passwords doesn't match!!")
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password | Webie</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"
+        integrity="sha512-QTnb9BQkG4fBYIt9JGvYmxPpd6TBeKp6lsUrtiVQsrJ9sb33Bn9s0wMQO9qVBFbPX3xHRAsBHvXlcsrnJjExjg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
+        integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap-grid.min.css"
+        integrity="sha512-JQksK36WdRekVrvdxNyV3B0Q1huqbTkIQNbz1dlcFVgNynEMRl0F8OSqOGdVppLUDIvsOejhr/W5L3G/b3J+8w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/app.js"></script>
+</head>
+<script>
+    const id = `<%=id%>`;
+    const token = `<%=token%>`
+    const resetPass = () => {
+
+        if (document.querySelector("#password-field").value !== document.querySelector("#conf-password-field")
+            .value) {
+            swal("Error", "Passwords don't match", 'error')
             return;
         }
-    axios.post(`/users/reset-password/${id}`, 
-    {
-        password : document.querySelector("#password").value
-    })
-        .then(function(response) {
-            if (response.status == 200) {
-                alert(response.data.msg);
-                console.log(response.data.link);
-                 window.location.href = '/users/login'
-            }
-        })
-        .catch(function(error) {
-            if (error.response) {
-                alert(error.response.data.error);
-            }
-        });
+        axios.post(`/users/reset-password/${id}`, {
+                password: document.querySelector("#password-field").value
+            })
+            .then(function (response) {
+                if (response.status == 200) {
+                    window.location.href = '/users/login'
+                }
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    swal(error.response.data.error, "Please try again", 'error')
+                }
+            });
     }
 </script>
-    <body>
-        <h2>Enter new password</h2>
-        <div class="form ">
-            <form action="/users/login" method="post ">
-                <div class=""> <span>New Password : </span><input
-                        type="password" name="password" id="password"></div>
-                <div class=""> <span>Re-enter new Password : </span><input
-                        type="password" name="password" id="confPassword"></div>
-                <button type="button" onclick="resetPass()">Update Password</button>
-            </form>
+
+<body>
+    <div style="display: flex;align-items: center;justify-content: center;width: 15vw;height: 10vh;">
+		<a href="/"><img src="/images/logo.png" style="width: 10vw;" alt=""></a>
+	</div>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-5">
+                    <div class="wrap">
+                        <div class="img" style="background-image: url('/images/bg-1.jpg');"></div>
+                        <div class="login-wrap p-4 p-md-5">
+                            <div class="d-flex">
+                                <div class="w-100">
+                                    <h3 class="mb-4">Reset your Password</h3>
+                                </div>
+
+                            </div>
+                            <form action="#" class="signin-form">
+                                <div class="form-group">
+                                    <input id="password-field" type="password" class="form-control" required>
+                                    <label class="form-control-placeholder" for="password">Password</label>
+                                    <span id="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"
+                                        style="cursor:pointer;" onclick="myFunction()"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input id="conf-password-field" type="password" class="form-control" required>
+                                    <label class="form-control-placeholder" for="password">Confirm Password</label>
+                                    <span id="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"
+                                        style="cursor:pointer;" onclick="myFunction()"></span>
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="form-control btn btn-primary rounded submit px-3"
+                                        onclick="resetPass()">Save Changes</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </body>
+    </section>
+</body>
 
 </html>+
