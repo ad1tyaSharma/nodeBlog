@@ -181,7 +181,11 @@ exports.editUser = (req, res) => {
   );
 };
 exports.getForgotPassPage = (req, res) => {
-  res.render("forgotPass.ejs");
+  res.render("forgotPass.ejs",
+  {
+    title:"Forgot Password | Webie",
+    user:undefined
+  });
 };
 exports.ForgotPass = (req, res) => {
   const { email } = req.body;
@@ -270,6 +274,8 @@ exports.getResetPassPage = (req, res) => {
           return res.render("resetPass.ejs", {
             id,
             token,
+            title:"Reset Password",
+            user: undefined
           });
         } catch (error) {
           console.log(error);

@@ -20,6 +20,8 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/app.js"></script>
+    <%- include('components/header.ejs') %>
+
 </head>
 <script>
     const id = `<%=id%>`;
@@ -48,9 +50,8 @@
 </script>
 
 <body>
-    <div style="display: flex;align-items: center;justify-content: center;width: 15vw;height: 10vh;">
-		<a href="/"><img src="/images/logo.png" style="width: 10vw;" alt=""></a>
-	</div>
+    <%- include('components/navbar.ejs') %>
+
     <section class="ftco-section">
         <div class="container">
             <div class="row justify-content-center">

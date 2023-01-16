@@ -13,6 +13,7 @@
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link rel="stylesheet" href="/css/style.css">
 	<script src="/js/app.js"></script>
+	<%- include('components/header.ejs') %>
 
 </head>
 <script>
@@ -32,9 +33,7 @@
 </script>
 
 <body>
-	<div style="display: flex;align-items: center;justify-content: center;width: 15vw;height: 10vh;">
-		<a href="/"><img src="/images/logo.png" style="width: 10vw;" alt=""></a>
-	</div>
+	<%- include('components/navbar.ejs') %>
     <section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
@@ -69,7 +68,7 @@
 								</div>
 								<div class="form-group d-md-flex">
 									<div class="">
-										<p class="text-center">Already a member? <a data-toggle="tab"
+										<p class="text-center">Already a member? <a 
 												style="color: #01D28E;" href="/users/login">Sign in</a></p>
 									</div>
 								</div>

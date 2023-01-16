@@ -4,10 +4,16 @@ const userController = require('../controllers/userController')
 const verifyToken = require('../middleware/auth')
 
 router.get("/login", (req, res) => {
-    res.render('login.ejs')
+    res.render('login.ejs',{
+        title:"Login | Webie",
+        user:undefined
+    })
 })
 router.get("/register", (req, res) => {
-    res.render('register.ejs')
+    res.render('register.ejs',{
+        title:"Register | Webie",
+        user:undefined
+    })
 })
 router.get('/forgot-password',userController.getForgotPassPage)
 router.get('/logout', userController.logOut)
