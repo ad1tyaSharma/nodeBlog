@@ -1,11 +1,28 @@
 <nav>
-    <a href="/posts">Home</a>
-    <% if (user) { %>
-        <p>Welcome,
-           <a href="/users/profile/<%= user.id %>"> <%= user.name %></a>
-        </p>
-        <a href="/users/logout">logout</a>
-        <%} %>
-            <div><button><a href="/posts/create">Create Post</a></button></div>
+            <!--------------------------------------
+NAVBAR
+--------------------------------------->
+<nav class="topnav navbar navbar-expand-lg navbar-light bg-white fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/posts"><strong>Webie</strong></a>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse" id="navbarColor02" ">
+            <ul class="navbar-nav mr-auto d-flex align-items-center">
+                <li class="nav-item">
+                <a class="nav-link" href="/posts/create">Create Post</a>
+                </li>
+               
+            </ul>
+            <ul class="navbar-nav ml-auto d-flex align-items-center">
+                <li class="nav-item highlight">
+                <a class="nav-link" href="/users/profile/<%= user.id %>"><img src="<%= user.image%>" style="width: 30px;border-radius: 50%;" class="mr-3" alt="png"> <%=user.name%></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </nav>
+    <!-- End Navbar -->
 
 </nav>

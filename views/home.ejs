@@ -1,27 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
-  <script>
-    const data = JSON.parse(`<%- JSON.stringify(data)%>`);
-    const user = JSON.parse(`<%- JSON.stringify(user)%>`);
-  </script>
-  <%- include('components/header.ejs') %>
-  <script>
-   
-    window.addEventListener("load", (event) => {
-       // console.log(data.length);
-    for (let i = 0; i < data.length; i++) {
-      const mainDiv = document.createElement("div");
-      mainDiv.innerHTML = `
-            <a href="/posts/${data[i]._id}"><img src="${data[i].image}" alt="txt"></a>
-            <a href="/posts/${data[i]._id}">${data[i].title}</a>
-            <p>${data[i].tag}</p>
-                `;
-      document.querySelector(".blogs").append(mainDiv);
-    }
-    });
-  </script>
-  <body>
-    <%- include('components/navbar.ejs') %>
-    <div class="blogs"></div>
-  </body>
+<script>
+  //const data = JSON.parse(`<%= JSON.stringify(data)%>`);
+  const user = JSON.parse(`<%- JSON.stringify(user)%>`);
+
+</script>
+<%- include('components/header.ejs') %>
+
+<body>
+  <%- include('components/navbar.ejs') %>
+  <div class="blogs"></div>
+<!--------------------------------------
+HEADER
+--------------------------------------->
+<div class="container">
+	<div class="jumbotron jumbotron-fluid mb-3 pt-0 pb-0 bg-lightblue position-relative">
+		<div class="pl-4 pr-0 h-100 tofront">
+			<div class="row justify-content-between">
+				<div class="col-md-6 pt-6 pb-6 align-self-center">
+					<h1 class="secondfont mb-3 font-weight-bold"><%= latest[0].title%></h1>
+					<p class="mb-3">
+            <%- latest[0].content.match(/\b\w+\b/g).slice(0, 50).join(" ")%>					</p>
+					<a href="/posts/<%= latest[0]._id %>" class="btn btn-dark">Read More</a>
+				</div>
+				<div class="col-md-6 d-none d-md-block pr-0" style="background-size:cover;background-image:url('<%= latest[0].image %>');">	</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Header -->
+  <!--
+      BODY
+    -->
+  <div class="container pt-4 pb-4">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card border-0 mb-4 box-shadow h-xl-300">
+          <div
+            style="background-image: url('<%= data[0].image %>'); height: 150px;    background-size: cover;    background-repeat: no-repeat;">
+          </div>
+          <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
+            <h2 class="h4 font-weight-bold">
+              <a class="text-dark" href="/posts/<%= data[0]._id %>"><%= data[0].title %></a>
+            </h2>
+            <p class="card-text">
+              <%- data[0].content.match(/\b\w+\b/g).slice(0, 20).join(" ")%>
+            </p>
+            <div>
+              <small class="d-block"><%= data[0].likes%> <i class="uil uil-thumbs-up"></i></small>
+              <small class="text-muted">
+                <%- `${new Date(data[0].createdAt).getDate()}` %> &middot;
+              <%-`${new Date(data[0].createdAt).getMonth() +1}` %> &middot;
+              <%- `${new Date(data[0].createdAt).getUTCFullYear()}` %>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="flex-md-row mb-4 box-shadow h-xl-300">
+          <div class="mb-3 d-flex align-items-center">
+            <img height="80" src="<%= data[1].image %>">
+            <div class="pl-3">
+              <h2 class="mb-2 h6 font-weight-bold">
+                <a class="text-dark" href="/posts/<%= data[1]._id %>"><%= data[1].title %></a>
+              </h2>
+              <div class="card-text text-muted small author-1">
+                <%= data[1].likes%> <i class="uil uil-thumbs-up"></i>
+              </div>
+              <small class="text-muted">
+                <%- `${new Date(data[1].createdAt).getDate()}` %> &middot;
+                <%-`${new Date(data[1].createdAt).getMonth() +1}` %> &middot;
+                <%- `${new Date(data[1].createdAt).getUTCFullYear()}` %> 
+              </small>
+            </div>
+          </div>
+          <div class="mb-3 d-flex align-items-center">
+            <img height="80" src="<%= data[2].image %>">
+            <div class="pl-3">
+              <h2 class="mb-2 h6 font-weight-bold">
+                <a class="text-dark" href="/posts/<%= data[2]._id %>"><%= data[2].title %></a>
+              </h2>
+              <div class="card-text text-muted small author-2">
+                <%= data[2].likes%> <i class="uil uil-thumbs-up"></i>
+              </div>
+              <small class="text-muted">
+                <%- `${new Date(data[2].createdAt).getDate()}` %> &middot;
+                <%-`${new Date(data[2].createdAt).getMonth() +1}` %> &middot;
+                <%- `${new Date(data[2].createdAt).getUTCFullYear()}` %> 
+              </small>
+            </div>
+          </div>
+          <div class="mb-3 d-flex align-items-center">
+            <img height="80" src="<%= data[3].image %>">
+            <div class="pl-3">
+              <h2 class="mb-2 h6 font-weight-bold">
+                <a class="text-dark" href="/posts/<%= data[3]._id %>"><%= data[3].title %></a>
+              </h2>
+              <div class="card-text text-muted small author-3">
+                <%= data[3].likes%> <i class="uil uil-thumbs-up"></i>
+              </div>
+              <small class="text-muted">
+                <%- `${new Date(data[3].createdAt).getDate()}` %> &middot;
+                <%-`${new Date(data[3].createdAt).getMonth() +1}` %> &middot;
+                <%- `${new Date(data[3].createdAt).getUTCFullYear()}` %> 
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row justify-content-between">
+      <div class="col-md-8">
+        <h5 class="font-weight-bold spanborder"><span>Other Blogs</span></h5>
+        <div class="mb-3 d-flex justify-content-between">
+          <div class="pr-3">
+            <h2 class="mb-1 h4 font-weight-bold">
+              <a class="text-dark" href="/posts/<%=data[5]._id%>"><%=data[5].title%></a>
+            </h2>
+            <p>
+              <%- data[4].content.match(/\b\w+\b/g).slice(0, 20).join(" ")%>
+            </p>
+            <div class="card-text text-muted small">
+              <%= data[4].likes%> <i
+              class="uil uil-thumbs-up"></i>
+            </div>
+            <small class="text-muted"><%- `${new Date(data[4].createdAt).getDate()}` %> &middot;
+              <%-`${new Date(data[4].createdAt).getMonth() +1}` %> &middot;
+              <%- `${new Date(data[4].createdAt).getUTCFullYear()}` %>  </small>
+          </div>
+          <img height="120" src="<%= data[4].image %>">
+        </div>
+        <div class="mb-3 d-flex justify-content-between">
+          <div class="pr-3">
+            <h2 class="mb-1 h4 font-weight-bold">
+              <a class="text-dark" href="/posts/<%=data[5]._id%>"><%=data[5].title%></a>
+            </h2>
+            <p>
+              <%- data[5].content.match(/\b\w+\b/g).slice(0, 20).join(" ")%>
+            </p>
+            <div class="card-text text-muted small author-6">
+               <%= data[5].likes%> <i
+              class="uil uil-thumbs-up"></i>
+            </div>
+            <small class="text-muted"><%- `${new Date(data[5].createdAt).getDate()}` %> &middot;
+              <%-`${new Date(data[5].createdAt).getMonth() +1}` %> &middot;
+              <%- `${new Date(data[5].createdAt).getUTCFullYear()}` %></small>
+          </div>
+          <img height="120" src="<%= data[5].image %>">
+        </div>
+        <div class="mb-3 d-flex justify-content-between">
+          <div class="pr-3">
+            <h2 class="mb-1 h4 font-weight-bold">
+              <a class="text-dark" href="/posts/<%=data[6]._id%>"><%=data[6].title%></a>
+            </h2>
+            <p>
+              <%- data[6].content.match(/\b\w+\b/g).slice(0, 20).join(" ")%>
+            </p>
+            <div class="card-text text-muted small author-7">
+              <%= data[6].likes%> <i
+              class="uil uil-thumbs-up"></i>
+            </div>
+            <small class="text-muted"><%- `${new Date(data[6].createdAt).getDate()}` %> &middot;
+              <%-`${new Date(data[6].createdAt).getMonth() +1}` %> &middot;
+              <%- `${new Date(data[6].createdAt).getUTCFullYear()}` %> </small>
+          </div>
+          <img height="120" src="<%= data[6].image %>">
+        </div>
+      </div>
+      <div class="col-md-4 pl-4">
+        <h5 class="font-weight-bold spanborder"><span>Popular</span></h5>
+        <ol class="list-featured">
+          <li>
+            <span>
+              <h6 class="font-weight-bold">
+                <a href="/posts/<%= liked[0]._id %>" class="text-dark"><%= liked[0].title %></a>
+              </h6>
+              <p class="text-muted">
+                <%= liked[0].likes %> <i class="uil uil-thumbs-up"></i>
+              </p>
+            </span>
+          </li>
+          <li>
+            <span>
+              <h6 class="font-weight-bold">
+                <a href="/posts/<%= liked[1]._id %>" class="text-dark"><%= liked[1].title %></a>
+              </h6>
+              <p class="text-muted">
+                <%= liked[1].likes %> <i class="uil uil-thumbs-up"></i>
+              </p>
+            </span>
+          </li>
+          <li>
+            <span>
+              <h6 class="font-weight-bold">
+                <a href="/posts/<%= liked[2]._id %>" class="text-dark"><%= liked[2].title %></a>
+              </h6>
+              <p class="text-muted">
+                <%= liked[2].likes %> <i class="uil uil-thumbs-up"></i>
+              </p>
+            </span>
+          </li>
+          <li>
+            <span>
+              <h6 class="font-weight-bold">
+                <a href="/posts/<%= liked[3]._id %>" class="text-dark"><%= liked[3].title %></a>
+              </h6>
+              <p class="text-muted">
+                <%= liked[3].likes %> <i class="uil uil-thumbs-up"></i>
+              </p>
+            </span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <!--------------------------------------
+FOOTER
+--------------------------------------->
+  <div class="container mt-5">
+    <footer class="bg-white border-top p-3 text-muted small">
+      <div class="row align-items-center justify-content-between">
+        <div>
+          <span class="navbar-brand mr-2"><strong>Webie</strong></span>
+          <script>
+            document.write(new Date().getFullYear())
+          </script>
+        </div>
+        <div>
+          Made by <a target="_blank" class="text-secondary font-weight-bold"
+            href="https://github.com/ad1tyaSharma">Aditya Sharma</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <!-- End Footer -->
+</body>
+
 </html>
