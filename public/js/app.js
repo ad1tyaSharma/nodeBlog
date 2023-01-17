@@ -42,7 +42,7 @@ const createUser = () => {
         });
 }
 const uploadImage = async() => {
-    const input = document.getElementById('image');
+    const input = document.querySelector('.drop-zone__input');
     const data = new FormData();
     if (!input.files[0]) {
         alert("Please upload an image")
