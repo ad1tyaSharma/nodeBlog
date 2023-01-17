@@ -1,5 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"
+		integrity="sha512-QTnb9BQkG4fBYIt9JGvYmxPpd6TBeKp6lsUrtiVQsrJ9sb33Bn9s0wMQO9qVBFbPX3xHRAsBHvXlcsrnJjExjg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
+		integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap-grid.min.css"
+		integrity="sha512-JQksK36WdRekVrvdxNyV3B0Q1huqbTkIQNbz1dlcFVgNynEMRl0F8OSqOGdVppLUDIvsOejhr/W5L3G/b3J+8w=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<link rel="stylesheet" href="/css/style.css">
+
 <script>
     const user = JSON.parse(`<%- JSON.stringify(user)%>`)
     const data = JSON.parse(`<%- JSON.stringify(data)%>`)
@@ -8,15 +24,42 @@
 <%- include('components/header.ejs') %>
 
     <body>
-        <%- include('components/navbar.ejs') %>
-            <h2> Name : <%= data.name%></h2>
-            <img src="<%= data.profilePic%>" alt="txt">
-            <p>Email : <%= data.email%> </p>
-            <p>Account Type : <%= data.role%></p>
-            <% if(data._id == user.id || user.role == 'admin'){ %>
-                <button id="editButton"><a href="/users/edit/<%= data._id%>">Edit</a></button>
-                
-                <% } %>
+        <%- include('components/navbar.ejs') %>    
+                <section class="ftco-section">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-7 col-lg-5">
+                                <div class="wrap">
+                                    <div class="img" style="background-image: url('<%= data.profilePic%>');"></div>
+                                    <div class="login-wrap p-4 p-md-5">
+                                        <div class="d-flex">
+                                            <div class="w-100">
+                                                <h3 class="mb-4">Welcome <%= data.name%></h3>
+                                            </div>
+                                            
+                                        </div>
+                                        <form action="#" class="signin-form">
+                                            <div class="form-group mt-3">
+                                                <p>Email : <%= data.email%> </p>
+                                            </div>
+                                            <div class="form-group">
+                                                <p>Account Type : <%= data.role%></p>
+                                            </div>
+                                            <% if(data._id == user.id || user.role == 'admin'){ %>
+                                            <div class="form-group">
+                                                <button type="button" class="form-control btn btn-primary rounded px-3"
+                                                    ><a href="/users/edit/<%= data._id%>" style="color: #fff;">Edit</a></button>
+                                            </div>
+                                            <% } %>
+                                        </form>
+            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            
     </body>
 
 </html>
