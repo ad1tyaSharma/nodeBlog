@@ -231,11 +231,11 @@ exports.ForgotPass = (req, res) => {
             <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
   <div style="margin:50px auto;width:70%;padding:20px 0">
     <div style="border-bottom:1px solid #eee">
-      <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Blog</a>
+      <a href="${process.env.HOST}/" style="font-size:1.4em;color: #01D28E;text-decoration:none;font-weight:600">Blog</a>
     </div>
     <p style="font-size:1.1em">Hi,</p>
     <p>We received a request to reset your password.Reset link is valid for 5 minutes</p>
-    <a href="${process.env.HOST}/users/forgot-password/${data._id}/${token}" style="background: #00466a; text-decoration: none;margin: 0 auto;width: max-content;padding: 10px 10px;color: #fff;border-radius: 4px;">Reset Password</a>
+    <a href="${process.env.HOST}/users/forgot-password/${data._id}/${token}" style="background: #01D28E; text-decoration: none;margin: 0 auto;width: max-content;padding: 10px 10px;color: #fff;border-radius: 4px;">Reset Password</a>
     <p style="font-size:0.9em;">Regards,<br />Your Brand</p>
     <hr style="border:none;border-top:1px solid #eee" />
     

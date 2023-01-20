@@ -13,4 +13,5 @@ router.post('/:id/editPost', postController.editPost)
 router.post('/deletePost', postController.deletePost)
 router.post('/:id/like', postController.addLike)
 router.post('/:id/unlike', postController.unLike)
+router.post('/getRandomPost', postController.getRandomPost)
 module.exports = router;

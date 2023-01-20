@@ -80,6 +80,7 @@ exports.getPostDetail = (req, res) => {
       if (!data) {
         res.status(400).redirect("/notFound");
       } else {
+        data.content = JSON.stringify(data.content)
         res
           .status(200)
           .render("postDetail.ejs", {
@@ -218,3 +219,32 @@ exports.unLike = async (req, res) => {
     return res.status(200).json({ msg: "Like Removed", likes: post.likes });
   }
 };
+exports.getRandomPost = (req,res)=>
+{
+  const {num,ex} = req.body;
+  Post.aggregate([
+    { 
+        $match: { _id: { $ne: ex } } 
+    },
+    {
+        $sample: { size: num }
+    }
+]).exec((err,data)=>
+{
+  if(err)
+  {
+    res.status(400).json({error:"Please try again"})
+  }
+  else
+  {
+    if(!data)
+    {
+      res.status(400).json({error:"No data Found"})
+    }
+    else
+    {
+      res.status(200).json({data})
+    }
+  }
+})
+}

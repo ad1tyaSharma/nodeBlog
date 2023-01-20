@@ -1,3 +1,16 @@
+function myFunction() {
+  var x = document.getElementById("password-field");
+  var y = document.querySelector(".toggle-password");
+  if (x.type === "password") {
+    x.type = "text";
+    y.classList.remove("fa-eye")
+    y.classList.add("fa-eye-slash")
+  } else {
+    x.type = "password";
+    y.classList.remove("fa-eye-slash")
+    y.classList.add("fa-eye")
+  }
+}
 const signInUser = () => {
     //  e.preventDefault()
     // console.log('clicked');
@@ -10,7 +23,7 @@ const signInUser = () => {
         .then(function(response) {
             if (response.status == 200) {
                 //alert(response.data.msg);
-                window.location.href = '/posts'
+               // window.location.href = '/posts'
             }
         })
         .catch(function(error) {
@@ -41,11 +54,11 @@ const createUser = () => {
             }
         });
 }
-const uploadImage = async() => {
+const uploadImage = async(files) => {
     const input = document.querySelector('.drop-zone__input');
     const data = new FormData();
     if (!input.files[0]) {
-        alert("Please upload an image")
+      swal("Please upload an image","error")
         return
     }
     data.append('file', input.files[0]);
@@ -58,10 +71,8 @@ const uploadImage = async() => {
     });
 
     const file = await res.json();
-    if (file.secure_url) {
-        document.querySelector(".image-container").innerHTML = `<img src=${file.secure_url} alt=${file.asset_id}>`
-    }
-    //console.log(file.secure_url);
+    
+    console.log(file.secure_url);
     return file.secure_url;
 }
 const createPost = async() => {
@@ -77,85 +88,13 @@ const createPost = async() => {
     axios.post('/posts/createPost', data)
         .then(function(response) {
             if (response.status == 200) {
-                alert(response.data.msg);
                 window.location.href = `/posts/${response.data.id}`
             }
         })
         .catch(function(error) {
             if (error.response) {
-                alert(error.response.data.error);
+              swal(error.response.data.error, "Please try again!", "error");
+                
             }
         });
 }
-document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
-    const dropZoneElement = inputElement.closest(".drop-zone");
-  
-    dropZoneElement.addEventListener("click", (e) => {
-      inputElement.click();
-    });
-  
-    inputElement.addEventListener("change", (e) => {
-      if (inputElement.files.length) {
-        updateThumbnail(dropZoneElement, inputElement.files[0]);
-      }
-    });
-  
-    dropZoneElement.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      dropZoneElement.classList.add("drop-zone--over");
-    });
-  
-    ["dragleave", "dragend"].forEach((type) => {
-      dropZoneElement.addEventListener(type, (e) => {
-        dropZoneElement.classList.remove("drop-zone--over");
-      });
-    });
-  
-    dropZoneElement.addEventListener("drop", (e) => {
-      e.preventDefault();
-  
-      if (e.dataTransfer.files.length) {
-        inputElement.files = e.dataTransfer.files;
-        updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
-      }
-  
-      dropZoneElement.classList.remove("drop-zone--over");
-    });
-  });
-  
-  /**
-   * Updates the thumbnail on a drop zone element.
-   *
-   * @param {HTMLElement} dropZoneElement
-   * @param {File} file
-   */
-  function updateThumbnail(dropZoneElement, file) {
-    let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
-  
-    // First time - remove the prompt
-    if (dropZoneElement.querySelector(".drop-zone__prompt")) {
-      dropZoneElement.querySelector(".drop-zone__prompt").remove();
-    }
-  
-    // First time - there is no thumbnail element, so lets create it
-    if (!thumbnailElement) {
-      thumbnailElement = document.createElement("div");
-      thumbnailElement.classList.add("drop-zone__thumb");
-      dropZoneElement.appendChild(thumbnailElement);
-    }
-  
-    thumbnailElement.dataset.label = file.name;
-  
-    // Show thumbnail for image files
-    if (file.type.startsWith("image/")) {
-      const reader = new FileReader();
-  
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
-      };
-    } else {
-      thumbnailElement.style.backgroundImage = null;
-    }
-  }
-  

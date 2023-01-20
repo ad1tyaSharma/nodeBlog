@@ -52,10 +52,13 @@ app.use("/users", require('./routes/user'))
 app.get('/', (req, res) => {
     res.redirect('/posts')
 })
-
+app.get('/notFound',(req,res)=>
+{
+    res.render('notFound.ejs',{title: "Webie | Not found"})
+})
 
 app.use((req, res, next) => {
-        res.status(404).send("Sorry can't find that!")
+        res.status(404).redirect('/notFound')
     })
     //Models import
 require("./models/post");

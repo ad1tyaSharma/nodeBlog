@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <title>Edit Post | Webie</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"
-		integrity="sha512-QTnb9BQkG4fBYIt9JGvYmxPpd6TBeKp6lsUrtiVQsrJ9sb33Bn9s0wMQO9qVBFbPX3xHRAsBHvXlcsrnJjExjg=="
-		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
-		integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
-		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap-grid.min.css"
-		integrity="sha512-JQksK36WdRekVrvdxNyV3B0Q1huqbTkIQNbz1dlcFVgNynEMRl0F8OSqOGdVppLUDIvsOejhr/W5L3G/b3J+8w=="
-		crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	<link rel="stylesheet" href="/css/style.css">
 <script>
     const user = JSON.parse(`<%- JSON.stringify(user)%>`)
         //console.log(cloudinary.preset);
@@ -24,17 +11,39 @@
 <%- include('components/header.ejs') %>
     <script>
         var image = data.image
-        window.addEventListener("load", (event) => {
-            document.querySelector(".image-container").innerHTML = `<img src=${data.image} alt = "txt">`
-            document.querySelector("#title").value = data.title
-            document.querySelector("#content").value = data.content
-            document.querySelector('#selectInput').value = data.tag
+        window.addEventListener("load", () => {
+            document.querySelector("#content").innerHTML = data.content
+        const dropZone = document.querySelector('.drop-zone');
+
+        // Add event listeners
+        dropZone.addEventListener('dragover', handleDragOver);
+        dropZone.addEventListener('drop', handleDrop);
+        dropZone.addEventListener('click', () => {
+            document.querySelector('.drop-zone__input').click()
         });
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.add('active');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.remove('active');
+
+            const files = e.dataTransfer.files;
+            document.querySelector('.drop-zone__input').files = files;  
+        }
+
+
+    })
         const uploadImage2 = async() => {
             const input = document.querySelector('.drop-zone__input');
             const data = new FormData();
             if (!input.files[0]) {
-                alert("Please upload an image")
+                swal("Please upload an image",error)
                 return
             }
             data.append('file', input.files[0]);
@@ -68,13 +77,13 @@
             axios.post(`/posts/${data._id}/editPost`, body)
                 .then(function(response) {
                     if (response.status == 200) {
-                        alert(response.data.msg)
+                        
                         window.location.href = `/posts/${data._id}`
                     }
                 })
                 .catch(function(error) {
                     if (error.response) {
-                        alert(JSON.stringify(error.response.data.error));
+                        swal(JSON.stringify(error.response.data.error,"Please try again!!",'error'));
 
                     }
                 });
@@ -174,7 +183,7 @@
                                             <label class="form-control-placeholder" for="title">Title</label>
                                         </div>
                                         <div class="form-group mt-3">
-                                            <textarea id="content" class="form-control" value="<%= data.content %>" required></textarea>
+                                            <textarea id="content" class="form-control"  required></textarea>
                                             <label class="form-control-placeholder" for="content">Content</label>
                                         </div>
                                         <div class="form-group mt-3">
@@ -193,6 +202,8 @@
                     </div>
                 </div>
             </section>
+            <%- include('components/footer.ejs') %>
+
     </body>
 
 </html>
