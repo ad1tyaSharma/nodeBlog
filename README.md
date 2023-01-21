@@ -44,20 +44,20 @@ The application will be running on *`http://localhost:3000`*
 
 #### The following endpoints are available for the blog application:
 **Users**
-* **POST** *`/forgot-password`* : Get One-time reset link via email
-* **POST** *`/reset-password/:id`* : Reset password
-* **POST** *`/register`* : Register User
-* **POST** *`/login`* : Log in User
-* **GET** *`/:id`* : Get User detail
-* **POST** *`/:id/editUser`* : Edit User
+* **POST** *`/users/forgot-password`* : Get One-time reset link via email
+* **POST** *`/users/reset-password/:id`* : Reset password
+* **POST** *`/users/register`* : Register User
+* **POST** *`/users/login`* : Log in User
+* **GET** *`/users/:id`* : Get User detail
+* **POST** *`/users/:id/editUser`* : Edit User
 
 **Posts**
-* **GET** *`/:id`* : Get post
-* **POST** *`/:id/editPost`* : Edit post
-* **POST** *`/createPost`* : Create post
-* **POST** *`/deletePost`* : Delete post
-* **POST** *`/:id/like`* : Like post
-* **POST** *`/:id/unlike`* : Unlike post
+* **GET** *`/posts/:id`* : Get post
+* **POST** *`/posts/:id/editPost`* : Edit post
+* **POST** *`/posts/createPost`* : Create post
+* **POST** *`/posts/deletePost`* : Delete post
+* **POST** *`/posts/:id/like`* : Like post
+* **POST** *`/posts/:id/unlike`* : Unlike post
 
 ### Sample User
 **Email:** abc@123.com
