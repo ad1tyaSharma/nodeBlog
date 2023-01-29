@@ -22,8 +22,8 @@ const signInUser = () => {
     axios.post('/users/login', data)
         .then(function(response) {
             if (response.status == 200) {
-                //alert(response.data.msg);
-               // window.location.href = '/posts'
+                
+                window.location.href = '/posts'
             }
         })
         .catch(function(error) {
