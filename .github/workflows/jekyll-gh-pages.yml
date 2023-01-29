@@ -45,10 +45,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses : actions/checkout@v3
       - run : npm install -g npm@latest
       - run  : npm cache clean --force
       - run : npm rm -rf node_modules && rm package-lock.json
       - run : npm install
+     
       - run : npm run build
       - name: Deploy to GitHub Pages
         id: deployment
