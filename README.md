@@ -1,4 +1,4 @@
-# Node Blog
+# Webie (Node Blog)
 A simple blog application built using Node.js, Express, and MongoDB.
 
 ### Features
